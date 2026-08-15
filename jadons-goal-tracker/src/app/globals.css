@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: toggling `.dark` on <html> flips every `dark:` variant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Synced palette -------------------------------------------------
+     Three hue families sharing the same lightness/chroma curve in OKLCH,
+     so they read as one cohesive spectrum rather than three unrelated
+     colors: ocean (blue, H≈250, primary/trust), meadow (green, H≈156,
+     growth/completion), and violet (purple, H≈300, priority/focus). */
+
+  --color-ocean-50: oklch(0.975 0.014 250);
+  --color-ocean-100: oklch(0.94 0.032 250);
+  --color-ocean-200: oklch(0.87 0.06 250);
+  --color-ocean-300: oklch(0.79 0.09 250);
+  --color-ocean-400: oklch(0.7 0.13 250);
+  --color-ocean-500: oklch(0.6 0.17 250);
+  --color-ocean-600: oklch(0.51 0.17 250);
+  --color-ocean-700: oklch(0.43 0.15 250);
+  --color-ocean-800: oklch(0.35 0.12 250);
+  --color-ocean-900: oklch(0.27 0.09 250);
+  --color-ocean-950: oklch(0.19 0.06 250);
+
+  --color-meadow-50: oklch(0.975 0.02 156);
+  --color-meadow-100: oklch(0.94 0.05 156);
+  --color-meadow-200: oklch(0.87 0.09 156);
+  --color-meadow-300: oklch(0.79 0.12 156);
+  --color-meadow-400: oklch(0.7 0.15 156);
+  --color-meadow-500: oklch(0.6 0.16 156);
+  --color-meadow-600: oklch(0.51 0.15 156);
+  --color-meadow-700: oklch(0.43 0.13 156);
+  --color-meadow-800: oklch(0.35 0.1 156);
+  --color-meadow-900: oklch(0.27 0.08 156);
+  --color-meadow-950: oklch(0.19 0.05 156);
+
+  --color-violet-50: oklch(0.975 0.014 300);
+  --color-violet-100: oklch(0.94 0.032 300);
+  --color-violet-200: oklch(0.87 0.06 300);
+  --color-violet-300: oklch(0.79 0.1 300);
+  --color-violet-400: oklch(0.7 0.15 300);
+  --color-violet-500: oklch(0.6 0.19 300);
+  --color-violet-600: oklch(0.51 0.19 300);
+  --color-violet-700: oklch(0.43 0.16 300);
+  --color-violet-800: oklch(0.35 0.13 300);
+  --color-violet-900: oklch(0.27 0.1 300);
+  --color-violet-950: oklch(0.19 0.07 300);
+
+  /* brand = primary actions (ocean), kept as an alias so existing
+     brand-* utility classes continue to work */
+  --color-brand-50: var(--color-ocean-50);
+  --color-brand-100: var(--color-ocean-100);
+  --color-brand-200: var(--color-ocean-200);
+  --color-brand-300: var(--color-ocean-300);
+  --color-brand-400: var(--color-ocean-400);
+  --color-brand-500: var(--color-ocean-500);
+  --color-brand-600: var(--color-ocean-600);
+  --color-brand-700: var(--color-ocean-700);
+  --color-brand-800: var(--color-ocean-800);
+  --color-brand-900: var(--color-ocean-900);
+
+  --color-success-500: var(--color-meadow-500);
+  --color-warning-500: #f59e0b;
+  --color-danger-500: #ef4444;
+
+  /* Neutral surface scale, slightly cool so it sits comfortably next to
+     the ocean/meadow/violet hues in both themes. */
+  --color-surface-0: oklch(1 0 250);
+  --color-surface-50: oklch(0.985 0.004 250);
+  --color-surface-100: oklch(0.965 0.006 250);
+  --color-surface-200: oklch(0.92 0.008 250);
+  --color-surface-300: oklch(0.85 0.01 250);
+  --color-surface-400: oklch(0.65 0.012 250);
+  --color-surface-500: oklch(0.5 0.014 250);
+  --color-surface-600: oklch(0.4 0.016 250);
+  --color-surface-700: oklch(0.3 0.016 250);
+  --color-surface-800: oklch(0.22 0.014 250);
+  --color-surface-900: oklch(0.16 0.012 250);
+  --color-surface-950: oklch(0.11 0.01 250);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* ---- Signature: the progress gradient -----------------------------------
+   Goal progress bars sweep from violet (just starting / ambition) through
+   ocean (in motion) to meadow (near done), so color itself communicates
+   how close a goal is to completion instead of decorating it. */
+.progress-gradient {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-violet-500),
+    var(--color-ocean-500) 55%,
+    var(--color-meadow-500)
+  );
+}
+
+.aurora-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-meadow-500),
+    var(--color-ocean-500) 55%,
+    var(--color-violet-500)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aurora-ring {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-meadow-400),
+    var(--color-ocean-500) 55%,
+    var(--color-violet-500)
+  );
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes progressFill {
+  from { width: 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.animate-progress {
+  animation: progressFill 1s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in,
+  .animate-progress {
+    animation: none !important;
+  }
+}
